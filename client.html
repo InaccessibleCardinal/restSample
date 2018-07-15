@@ -1,0 +1,53 @@
+<html>
+<head></head>
+<body>
+<label>Name: </label>
+<input id="name" type="text" name="name"/>
+<br />
+<label>Password: </label>
+<input id="password" type="password" name="password" />
+<br />
+<button id="submit">Submit</button>
+<hr />
+<p>"username":"angrymeercat748",</p><p>"password":"baltimor"</p>
+<h4>Token generated:</h4>
+<div id="token-container">
+
+</div>
+
+<script>
+'use strict'
+var n = document.getElementById('name'), 
+p = document.getElementById('password'), 
+s = document.getElementById('submit'),
+tc = document.getElementById('token-container');
+
+
+s.addEventListener('click', submitData);
+
+//"username":"angrymeercat748","password":"baltimor"
+
+function submitData() {
+	tc.innerHTML = '';
+	var url = 'http://localhost:9000/auth';
+	var name = n.value, password = p.value, data = {};
+	data.name = name;
+	data.password = password;
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', url, true);
+xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.onreadystatechange = function() {
+		if (this.readyState === 4 && this.status >=200) {
+		let res = JSON.parse(this.responseText)
+			console.log(res);
+		tc.innerHTML = res.token;
+			
+		}
+
+	}
+	xhr.send(JSON.stringify(data));
+}
+
+</script>
+</body>
+</html>
